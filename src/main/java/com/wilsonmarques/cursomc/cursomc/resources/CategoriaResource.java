@@ -24,7 +24,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RestController
 @RequestMapping(value = "/categorias")
 public class CategoriaResource {
-    
+
     @Autowired
     private CategoriaService service;
 
@@ -38,8 +38,7 @@ public class CategoriaResource {
     public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto) {
         Categoria obj = service.fromDTO(objDto);
         obj = service.insert(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                    .path("/{id}").buildAndExpand(obj.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
@@ -65,10 +64,9 @@ public class CategoriaResource {
     }
 
     @RequestMapping(value = "/page", method = RequestMethod.GET)
-    public ResponseEntity<Page<CategoriaDTO>> findPage(
-            @RequestParam(value = "page", defaultValue = "0") Integer page, 
-            @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage, 
-            @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy, 
+    public ResponseEntity<Page<CategoriaDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+            @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
             @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
         Page<Categoria> list = service.findPage(page, linesPerPage, orderBy, direction);
         Page<CategoriaDTO> listDto = list.map(obj -> new CategoriaDTO(obj));
