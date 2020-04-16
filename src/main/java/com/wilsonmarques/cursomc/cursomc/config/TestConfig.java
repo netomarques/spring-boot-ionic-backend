@@ -3,6 +3,8 @@ package com.wilsonmarques.cursomc.cursomc.config;
 import java.text.ParseException;
 
 import com.wilsonmarques.cursomc.cursomc.services.DBService;
+import com.wilsonmarques.cursomc.cursomc.services.EmailService;
+import com.wilsonmarques.cursomc.cursomc.services.MockEmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,5 +22,10 @@ public class TestConfig {
     public boolean instantiateDatabase() throws ParseException {
         dbService.instantiateTestDatabase();
         return true;
+    }
+
+    @Bean
+    public EmailService emailService() {
+        return new MockEmailService();
     }
 }
