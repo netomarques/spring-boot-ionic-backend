@@ -1,8 +1,11 @@
 package com.wilsonmarques.cursomc.cursomc.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -99,7 +102,7 @@ public class Pedido implements Serializable {
     public void setEnderecoDeEntrega(Endereco enderecoDeEntrega) {
         this.enderecoDeEntrega = enderecoDeEntrega;
     }
-    
+
     public Set<ItemPedido> getItens() {
         return itens;
     }
@@ -133,5 +136,26 @@ public class Pedido implements Serializable {
         return true;
     }
 
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        StringBuilder builder = new StringBuilder();
+        builder.append("Pedido número: ");
+        builder.append(getId());
+        builder.append(", Instante: ");
+        builder.append(sdf.format(getInstante()));
+        builder.append(", Cliente: ");
+        builder.append(getCliente().getNome());
+        builder.append(", Situação do pagamento: ");
+        builder.append(getPagamento().getEstado().getDescricao());
+        builder.append("\nDetalhes:\n");
+        for (ItemPedido ip : getItens()) {
+            builder.append(ip.toString());
+        }
+        builder.append("Valor total: ");
+        builder.append(nf.format(getValorTotal()));
+        return builder.toString();
+    }
 
 }
